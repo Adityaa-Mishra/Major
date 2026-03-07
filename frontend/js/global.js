@@ -5,10 +5,14 @@ const FRONTEND_HOST = window.location.hostname;
 
 // If running locally use localhost backend
 // If deployed use Render backend
+
 const API_BASE =
   FRONTEND_HOST === 'localhost' || FRONTEND_HOST === '127.0.0.1'
     ? 'http://localhost:5000/api'
-    : 'https://myhomemistri-2.onrender.com';
+    : 'https://myhomemistri-1.onrender.com/api';
+
+window.API_BASE = API_BASE;
+
 
 window.API_BASE = API_BASE;
 

@@ -22,6 +22,12 @@ const FRONTEND_URLS = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL || 
   .split(',')
   .map((x) => x.trim())
   .filter(Boolean);
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+
+if (IS_PRODUCTION) {
+  // Required when running behind Render/NGINX so secure session cookies are set correctly.
+  app.set('trust proxy', 1);
+}
 
 app.use(
   cors({
@@ -49,6 +55,7 @@ app.use(
     secret: process.env.SESSION_SECRET || 'fallback_session_secret',
     resave: false,
     saveUninitialized: false,
+    proxy: IS_PRODUCTION,
     cookie: {
       httpOnly: true,
       // When frontend and backend are hosted on different origins (which is
@@ -58,8 +65,8 @@ app.use(
       // in but then immediately get kicked back to the login page because the
       // session cookie was never included on subsequent API calls. Switching to
       // 'none' (with secure=true) allows the cookie to be used across origins.
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-      secure: process.env.NODE_ENV === 'production',
+      sameSite: IS_PRODUCTION ? 'none' : 'lax',
+      secure: IS_PRODUCTION,
       maxAge: 1000 * 60 * 60 * 24
     }
   })

@@ -24,6 +24,20 @@ function redirectByRole(role) {
   window.location.href = role === 'provider' ? 'provider-dashboard.html' : 'user-dashboard.html';
 }
 
+(function removeGoogleAuthOption() {
+  const candidates = Array.from(
+    document.querySelectorAll(
+      '#googleLoginBtn, .google-login-btn, .btn-google, [data-auth="google"], [data-provider="google"]'
+    )
+  );
+
+  const textMatches = Array.from(document.querySelectorAll('button, a')).filter((el) =>
+    /continue\s+with\s+google/i.test((el.textContent || '').trim())
+  );
+
+  [...candidates, ...textMatches].forEach((el) => el.remove());
+})();
+
 (function initRoleToggle() {
   const roleButtons = document.querySelectorAll('.role-btn');
   const providerFields = document.getElementById('providerFields');

@@ -388,6 +388,11 @@ function initComposer() {
   const attachmentInput = document.getElementById('chatAttachmentInput');
   if (!input || !sendBtn) return;
 
+  // Fix for attachment icon click
+  if (attachBtn && attachmentInput) {
+    attachBtn.addEventListener('click', () => attachmentInput.click());
+  }
+
   sendBtn.addEventListener('click', sendMessage);
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -435,6 +440,9 @@ function initMobileNavigation() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Add class for CSS targeting (hiding footer, fixing height)
+  document.body.classList.add('chat-page-body');
+
   currentUser = await window.AuthState.refreshUser({ strict: true });
   if (!currentUser) {
     window.location.href = 'login.html';
@@ -460,7 +468,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     pollTimer = setInterval(() => {
       refreshChatData(false).catch(() => {});
-    }, 5000);
+    }, 10000); // Increased to 10s to reduce load/speed up performance
   } catch (error) {
     window.showToast(error.message || 'Failed to load chat', 'error');
   }

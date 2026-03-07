@@ -1095,6 +1095,23 @@ footer .social-link:hover {
   .nav-drawer .nav-actions,
   .mobile-drawer .nav-actions { display: flex; }
   footer .footer-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Fix dashboard margin on mobile/tablet */
+  .container, .container-sm, .section {
+    padding-right: var(--space-lg);
+    padding-left: var(--space-lg);
+  }
+}
+
+/* Chat Page Specific Fixes */
+.chat-page-body {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.chat-page-body footer {
+  display: none !important;
 }
 
 @media (max-width: 768px) {
@@ -1131,6 +1148,11 @@ footer .social-link:hover {
   footer .footer-bottom { flex-direction: column; gap: var(--space-md); text-align: center; }
 }
 
+/* Ensure dashboard content doesn't touch edges on mobile */
+@media (max-width: 768px) {
+  main { padding-right: var(--space-lg); padding-left: var(--space-lg); }
+}
+
 @media (max-width: 480px) {
   .nav-container { padding: 0 var(--space-md); }
   .nav-logo { font-size: 1.08rem; }
@@ -1147,13 +1169,3 @@ footer .social-link:hover {
     --space-2xl: 32px;
   }
 }
-
-
-
-
-
-
-
-
-
-

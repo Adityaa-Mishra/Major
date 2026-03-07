@@ -157,6 +157,7 @@ window.AuthState = {
     }
     localStorage.setItem('mmUser', JSON.stringify(data));
     localStorage.setItem('mmToken', 'session');
+    localStorage.setItem('mmUserLastCheck', String(Date.now()));
   },
   isLoggedIn() {
     return !!this.getUser();
@@ -167,6 +168,17 @@ window.AuthState = {
   },
   async refreshUser(options = {}) {
     const strict = !!options.strict;
+    
+    // Speed optimization: Use cached user for non-strict checks (navigation)
+    // to avoid blocking UI on slow network/backend.
+    const cachedUser = this.getUser();
+    const lastCheck = Number(localStorage.getItem('mmUserLastCheck') || 0);
+    const isFresh = (Date.now() - lastCheck) < 60000; // 1 minute cache
+
+    if (!strict && cachedUser && isFresh) {
+      return cachedUser;
+    }
+
     try {
       const result = await window.ApiClient.request('/auth/me');
       const user = result && result.data ? result.data : null;

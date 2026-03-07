@@ -207,6 +207,13 @@ async function syncNavAuthState() {
 
     const dashboardHref = user.role === 'provider' ? 'provider-dashboard.html' : 'user-dashboard.html';
 
+    // Change home links to dashboard
+    document.querySelectorAll('a[href="index.html"]').forEach((link) => {
+      if (link.closest('.nav-logo')) return; // don't change logo
+      link.href = dashboardHref;
+      link.textContent = 'Dashboard';
+    });
+
     document.querySelectorAll('.nav-actions').forEach((actions) => {
       const loginLink = actions.querySelector('a[href="login.html"]');
       const registerLink = actions.querySelector('a[href="register.html"], a[href^="register.html?"]');
@@ -254,13 +261,15 @@ async function syncNavAuthState() {
   window.AuthState.refreshUser().then(applyNavForUser).catch(() => {});
 }
 
-syncNavAuthState();
+document.addEventListener('DOMContentLoaded', () => {
+  syncNavAuthState();
 
-(function setActiveNavLink() {
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-link, .drawer-link').forEach((link) => {
-    const href = link.getAttribute('href');
-    if (!href || href.startsWith('#')) return;
-    if (href.split('?')[0] === currentPage) link.classList.add('active');
-  });
-})();
+  (function setActiveNavLink() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-link, .drawer-link').forEach((link) => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#')) return;
+      if (href.split('?')[0] === currentPage) link.classList.add('active');
+    });
+  })();
+});

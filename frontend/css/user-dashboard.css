@@ -593,7 +593,7 @@
     padding: var(--space-lg);
   }
   .dashboard-main {
-    margin-right: var(--space-lg);
+    padding-right: var(--space-lg);
   }
   .dashboard-section-header {
     flex-wrap: wrap;

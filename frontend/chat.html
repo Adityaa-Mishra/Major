@@ -64,7 +64,8 @@
 
           <div class="chat-input-area">
             <div class="chat-input-wrapper">
-              <button class="chat-attach-btn" type="button">&#128206;</button>
+              <label class="chat-attach-btn" id="chatAttachBtn" for="chatAttachmentInput" title="Attach a file">&#128206;</label>
+              <input type="file" id="chatAttachmentInput" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.webp,.gif,.zip,.rar" style="display:none">
               <textarea class="chat-text-input" id="chatInput" placeholder="Type your message"></textarea>
               <button class="chat-send-btn" id="chatSendBtn" type="button">&#10148;</button>
             </div>

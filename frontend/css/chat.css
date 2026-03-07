@@ -3,9 +3,9 @@
 ============================================ */
 
 .chat-page {
-  padding-top: 72px;
-  min-height: calc(100vh - 72px);
-  height: calc(100vh - 72px);
+  padding-top: 84px;
+  min-height: calc(100dvh - 84px);
+  height: calc(100dvh - 84px);
   display: flex;
   flex-direction: column;
   background: var(--bg-base);
@@ -285,6 +285,7 @@
   flex-direction: column;
   gap: var(--space-md);
   scroll-behavior: smooth;
+  background: white;
 }
 
 .message-group {
@@ -417,7 +418,7 @@
 .chat-input-area {
   background: white;
   border-top: 1px solid var(--border-soft);
-  padding: var(--space-md) var(--space-xl);
+  padding: var(--space-md) var(--space-xl) max(var(--space-md), env(safe-area-inset-bottom));
   flex-shrink: 0;
 }
 
@@ -456,6 +457,25 @@
 .chat-attach-btn:hover {
   color: var(--primary);
   background: var(--primary-glow);
+}
+
+.chat-attach-btn.has-file {
+  color: var(--primary-dark);
+  background: var(--primary-glow);
+}
+
+.chat-attachment-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: #1d4ed8;
+}
+
+.message-group.sent .chat-attachment-link {
+  color: #dbeafe;
 }
 
 .chat-text-input {
@@ -559,8 +579,9 @@
 /* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {
   .chat-page {
-    min-height: calc(100dvh - 72px);
-    height: calc(100dvh - 72px);
+    padding-top: 86px;
+    min-height: calc(100dvh - 86px);
+    height: calc(100dvh - 86px);
   }
   .chat-layout { grid-template-columns: 1fr; }
   .chat-window { display: none; }
@@ -580,5 +601,5 @@
 
 @media (max-width: 480px) {
   .chat-window-header { padding: var(--space-md); }
-  .chat-input-area { padding: var(--space-sm) var(--space-md); }
+  .chat-input-area { padding: var(--space-sm) var(--space-md) max(var(--space-sm), env(safe-area-inset-bottom)); }
 }

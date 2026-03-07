@@ -23,6 +23,12 @@ const chatMessageSchema = new mongoose.Schema(
       trim: true,
       maxlength: 2000
     },
+    attachment: {
+      name: { type: String, default: '' },
+      type: { type: String, default: '' },
+      size: { type: Number, default: 0 },
+      url: { type: String, default: '' }
+    },
     readAt: {
       type: Date,
       default: null

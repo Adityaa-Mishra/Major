@@ -222,6 +222,7 @@ async function getConversations(req, res, next) {
           ? {
             _id: lastMessage._id,
             text: lastMessage.text,
+            attachment: lastMessage.attachment || null,
             createdAt: lastMessage.createdAt,
             sender: lastMessage.sender ? { _id: lastMessage.sender._id, name: lastMessage.sender.name } : null
           }
@@ -293,10 +294,13 @@ async function getMessagesByBooking(req, res, next) {
 async function sendMessage(req, res, next) {
   try {
     const { bookingId, partnerId, text } = req.body;
-    if (!text || !String(text).trim()) {
+    const safeText = String(text || '').trim();
+    const file = req.file || null;
+
+    if (!safeText && !file) {
       return res.status(400).json({
         success: false,
-        message: 'text is required.'
+        message: 'text or attachment is required.'
       });
     }
 
@@ -344,11 +348,23 @@ async function sendMessage(req, res, next) {
       });
     }
 
+    const attachment = file
+      ? {
+        name: String(file.originalname || file.filename || '').trim(),
+        type: String(file.mimetype || '').trim(),
+        size: Number(file.size || 0),
+        url: `/uploads/chat-attachments/${file.filename}`
+      }
+      : null;
+
+    const messageText = safeText || `Attachment: ${attachment.name}`;
+
     const message = await ChatMessage.create({
       booking: targetBookingId,
       sender: req.user._id,
       receiver: receiverId,
-      text: String(text).trim()
+      text: messageText,
+      attachment: attachment || undefined
     });
 
     const populated = await ChatMessage.findById(message._id)

@@ -6,9 +6,11 @@ let activeConversationId = null; // partner user id
 let activeMessages = [];
 let pollTimer = null;
 let loadingMessages = false;
+let refreshing = false;
 let lastConversationSignature = '';
 let lastMessagesSignature = '';
 let urlPartnerId = '';
+let pendingAttachment = null;
 
 function isMobileView() {
   return window.matchMedia('(max-width: 768px)').matches;
@@ -66,7 +68,7 @@ function buildConversationSignature(list) {
 }
 
 function buildMessagesSignature(list) {
-  return list.map((m) => `${m.id}|${m.readAt || ''}`).join('::');
+  return list.map((m) => `${m.id}|${m.readAt || ''}|${m.text || ''}|${m.attachment ? m.attachment.url : ''}`).join('::');
 }
 
 function getActiveConversation() {
@@ -162,11 +164,19 @@ async function loadMessagesForActiveConversation() {
       text: m.text || '',
       createdAt: m.createdAt,
       fromMe: m.sender && String(m.sender._id) === String(currentUser._id),
-      readAt: m.readAt || null
+      readAt: m.readAt || null,
+      attachment: m.attachment || null
     }));
   } finally {
     loadingMessages = false;
   }
+}
+
+function getPublicFileUrl(pathname) {
+  if (!pathname) return '';
+  if (/^https?:\/\//i.test(pathname)) return pathname;
+  const hostBase = window.ApiClient.getBaseUrl().replace(/\/api$/, '');
+  return `${hostBase}${pathname.startsWith('/') ? '' : '/'}${pathname}`;
 }
 
 function renderConversationList(filter = '') {
@@ -286,6 +296,11 @@ function renderChatWindow() {
     ${activeMessages.map((m) => `
       <div class="message-group ${m.fromMe ? 'sent' : 'received'}">
         <div class="message-bubble">${escapeHtml(m.text)}</div>
+        ${
+          m.attachment && m.attachment.url
+            ? `<a class="chat-attachment-link" href="${escapeHtml(getPublicFileUrl(m.attachment.url))}" target="_blank" rel="noopener noreferrer">Attachment: ${escapeHtml(m.attachment.name || 'Open file')}</a>`
+            : ''
+        }
         <div class="message-time">${formatTime(m.createdAt)}${m.fromMe ? (m.readAt ? '  Seen' : '  Sent') : ''}</div>
       </div>
     `).join('')}
@@ -298,18 +313,27 @@ async function sendMessage() {
   if (!input || !activeConversationId) return;
 
   const text = input.value.trim();
-  if (!text) return;
+  if (!text && !pendingAttachment) return;
 
   try {
     const active = getActiveConversation();
-    const payload = { text, partnerId: (active && active.partnerId) ? active.partnerId : activeConversationId };
+    const partnerId = (active && active.partnerId) ? active.partnerId : activeConversationId;
+    const body = pendingAttachment
+      ? (() => {
+        const formData = new FormData();
+        formData.append('partnerId', partnerId);
+        formData.append('text', text);
+        formData.append('attachment', pendingAttachment, pendingAttachment.name);
+        return formData;
+      })()
+      : { text, partnerId };
 
-    await window.ApiClient.request('/chat/messages', {
-      method: 'POST',
-      body: payload
-    });
+    await window.ApiClient.request('/chat/messages', { method: 'POST', body });
 
     input.value = '';
+    pendingAttachment = null;
+    const attachBtn = document.getElementById('chatAttachBtn');
+    if (attachBtn) attachBtn.classList.remove('has-file');
     await refreshChatData(true);
   } catch (error) {
     window.showToast(error.message || 'Failed to send message', 'error');
@@ -317,44 +341,51 @@ async function sendMessage() {
 }
 
 async function refreshChatData(forceRender = false) {
+  if (refreshing) return;
+  refreshing = true;
   const prevConversationSignature = lastConversationSignature;
   const prevMessagesSignature = lastMessagesSignature;
   const searchValue = document.getElementById('conversationSearch')?.value || '';
+  try {
+    await loadConversations();
 
-  await loadConversations();
-
-  if (urlPartnerId) {
-    if (!conversations.some((c) => c.conversationId === urlPartnerId)) {
-      await ensureConversationByPartnerId(urlPartnerId);
+    if (urlPartnerId) {
+      if (!conversations.some((c) => c.conversationId === urlPartnerId)) {
+        await ensureConversationByPartnerId(urlPartnerId);
+      }
+      if (conversations.some((c) => c.conversationId === urlPartnerId)) {
+        activeConversationId = urlPartnerId;
+      }
     }
-    if (conversations.some((c) => c.conversationId === urlPartnerId)) {
-      activeConversationId = urlPartnerId;
+
+    const newConversationSignature = buildConversationSignature(conversations);
+
+    await loadMessagesForActiveConversation();
+    const newMessagesSignature = buildMessagesSignature(activeMessages);
+
+    const conversationChanged = newConversationSignature !== prevConversationSignature;
+    const messagesChanged = newMessagesSignature !== prevMessagesSignature;
+
+    if (forceRender || conversationChanged) {
+      renderConversationList(searchValue);
     }
+
+    if (forceRender || conversationChanged || messagesChanged) {
+      renderChatWindow();
+    }
+
+    lastConversationSignature = newConversationSignature;
+    lastMessagesSignature = newMessagesSignature;
+  } finally {
+    refreshing = false;
   }
-
-  const newConversationSignature = buildConversationSignature(conversations);
-
-  await loadMessagesForActiveConversation();
-  const newMessagesSignature = buildMessagesSignature(activeMessages);
-
-  const conversationChanged = newConversationSignature !== prevConversationSignature;
-  const messagesChanged = newMessagesSignature !== prevMessagesSignature;
-
-  if (forceRender || conversationChanged) {
-    renderConversationList(searchValue);
-  }
-
-  if (forceRender || conversationChanged || messagesChanged) {
-    renderChatWindow();
-  }
-
-  lastConversationSignature = newConversationSignature;
-  lastMessagesSignature = newMessagesSignature;
 }
 
 function initComposer() {
   const input = document.getElementById('chatInput');
   const sendBtn = document.getElementById('chatSendBtn');
+  const attachBtn = document.getElementById('chatAttachBtn');
+  const attachmentInput = document.getElementById('chatAttachmentInput');
   if (!input || !sendBtn) return;
 
   sendBtn.addEventListener('click', sendMessage);
@@ -364,6 +395,19 @@ function initComposer() {
       sendMessage();
     }
   });
+
+  if (attachBtn && attachmentInput) {
+    // Label triggers input automatically
+    attachmentInput.addEventListener('change', () => {
+      const file = attachmentInput.files && attachmentInput.files[0] ? attachmentInput.files[0] : null;
+      pendingAttachment = file || null;
+      attachBtn.classList.toggle('has-file', !!pendingAttachment);
+      if (pendingAttachment) {
+        window.showToast(`Attached: ${pendingAttachment.name}`, 'info');
+      }
+      attachmentInput.value = '';
+    });
+  }
 }
 
 function initSearch() {
@@ -391,7 +435,7 @@ function initMobileNavigation() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  currentUser = await window.AuthState.refreshUser();
+  currentUser = await window.AuthState.refreshUser({ strict: true });
   if (!currentUser) {
     window.location.href = 'login.html';
     return;
@@ -416,7 +460,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     pollTimer = setInterval(() => {
       refreshChatData(false).catch(() => {});
-    }, 3000);
+    }, 5000);
   } catch (error) {
     window.showToast(error.message || 'Failed to load chat', 'error');
   }

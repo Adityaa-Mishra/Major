@@ -468,7 +468,7 @@ async function loadProviderReviews() {
 })();
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const user = await window.AuthState.refreshUser();
+  const user = await window.AuthState.refreshUser({ strict: true });
   if (!user) {
     window.location.href = 'login.html';
     return;

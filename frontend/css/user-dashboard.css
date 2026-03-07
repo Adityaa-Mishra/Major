@@ -6,6 +6,7 @@
   padding-top: 80px;
   min-height: 100vh;
   background: linear-gradient(135deg, var(--bg-base) 0%, var(--bg-soft) 100%);
+  overflow-x: hidden;
 }
 
 /* ============ DASHBOARD LAYOUT ============ */
@@ -586,7 +587,14 @@
 }
 
 @media (max-width: 768px) {
-  .dashboard-container { padding: var(--space-lg); }
+  .dashboard-container {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--space-lg);
+  }
+  .dashboard-main {
+    margin-right: var(--space-lg);
+  }
   .dashboard-section-header {
     flex-wrap: wrap;
     gap: var(--space-sm);
@@ -612,5 +620,9 @@
     display: grid;
     grid-template-columns: 1fr;
   }
-  .dashboard-container { padding: var(--space-md); }
+  .dashboard-container {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 14px var(--space-md);
+  }
 }

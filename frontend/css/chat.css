@@ -418,7 +418,7 @@
 .chat-input-area {
   background: white;
   border-top: 1px solid var(--border-soft);
-  padding: var(--space-md) var(--space-xl) var(--space-md);
+  padding: var(--space-md) var(--space-xl) 0;
   flex-shrink: 0;
 }
 
@@ -601,5 +601,5 @@
 
 @media (max-width: 480px) {
   .chat-window-header { padding: var(--space-md); }
-  .chat-input-area { padding: var(--space-sm) var(--space-md) max(var(--space-sm), env(safe-area-inset-bottom)); }
+  .chat-input-area { padding: var(--space-sm) var(--space-md) 0; }
 }

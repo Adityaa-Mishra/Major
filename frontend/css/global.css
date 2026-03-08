@@ -1095,14 +1095,13 @@ footer .social-link:hover {
   .nav-drawer .nav-actions,
   .mobile-drawer .nav-actions { display: flex; }
   footer .footer-grid { grid-template-columns: 1fr 1fr; }
-
   /* Fix dashboard margin on mobile/tablet */
   .container, .container-sm, .section {
     padding-right: var(--space-lg);
     padding-left: var(--space-lg);
   }
 }
-
+  
 /* Chat Page Specific Fixes */
 .chat-page-body {
   height: 100vh;

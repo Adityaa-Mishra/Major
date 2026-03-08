@@ -1105,17 +1105,18 @@ footer .social-link:hover {
 /* Chat Page Specific Fixes */
 .chat-page-body {
   height: 100vh;
+  max-height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: white;          /* kills the body gradient bleed */
+  background: white;
 }
 .chat-page-body::before,
 .chat-page-body::after {
-  display: none;              /* removes the animated glow planes */
+  display: none;
 }
 .chat-page-body .bg-shapes {
-  display: none;              /* hides floating orb shapes */
+  display: none;
 }
 .chat-page-body footer {
   display: none !important;

@@ -2,9 +2,6 @@
 
 const FRONTEND_HOST = window.location.hostname;
 
-// If running locally use localhost backend
-// If deployed use Render backend
-
 const API_BASE =
   FRONTEND_HOST === 'localhost' || FRONTEND_HOST === '127.0.0.1'
     ? 'http://localhost:5000/api'
@@ -168,12 +165,10 @@ window.AuthState = {
   },
   async refreshUser(options = {}) {
     const strict = !!options.strict;
-    
-    // Speed optimization: Use cached user for non-strict checks (navigation)
-    // to avoid blocking UI on slow network/backend.
+
     const cachedUser = this.getUser();
     const lastCheck = Number(localStorage.getItem('mmUserLastCheck') || 0);
-    const isFresh = (Date.now() - lastCheck) < 60000; // 1 minute cache
+    const isFresh = (Date.now() - lastCheck) < 60000;
 
     if (!strict && cachedUser && isFresh) {
       return cachedUser;
@@ -185,7 +180,6 @@ window.AuthState = {
       this.setUser(user);
       return user;
     } catch (error) {
-      // On public pages keep local state; on protected pages enforce strict auth.
       if (strict && error && (error.status === 401 || error.status === 403)) {
         this.setUser(null);
         return null;
@@ -204,7 +198,40 @@ window.AuthState = {
   }
 };
 
-async function syncNavAuthState() {
+// ─── NAV AUTH SYNC ────────────────────────────────────────────────────────────
+// Marks nav action links with data attributes on first paint so they can
+// always be found regardless of what href/text they currently have.
+function tagNavLinks() {
+  document.querySelectorAll('.nav-actions, .nav-drawer .nav-actions').forEach((actions) => {
+    const links = actions.querySelectorAll('a');
+    links.forEach((link) => {
+      const href = link.getAttribute('href') || '';
+      const text = link.textContent.trim().toLowerCase();
+
+      // Tag the LOGIN / Dashboard link (first btn-like link, or one pointing to login)
+      if (!link.dataset.navRole) {
+        if (href.includes('login') || href.includes('dashboard') || link.classList.contains('btn-outline')) {
+          link.dataset.navRole = 'login';
+        }
+      }
+
+      // Tag the REGISTER / Logout link
+      if (!link.dataset.navRole) {
+        if (href.includes('register') || text === 'logout' || text === 'get started' || text === 'get started free' || link.classList.contains('btn-primary')) {
+          link.dataset.navRole = 'register';
+        }
+      }
+    });
+
+    // Fallback: tag by position if roles still missing
+    const untagged = actions.querySelectorAll('a:not([data-nav-role])');
+    untagged.forEach((link, i) => {
+      link.dataset.navRole = i === 0 ? 'login' : 'register';
+    });
+  });
+}
+
+function applyNavForUser(user) {
   const wireLogout = (el) => {
     if (!el || el.dataset.logoutWired === '1') return;
     el.dataset.logoutWired = '1';
@@ -214,27 +241,19 @@ async function syncNavAuthState() {
     });
   };
 
-  const applyNavForUser = (user) => {
-    if (!user) return;
+  document.querySelectorAll('.nav-actions, .nav-drawer .nav-actions').forEach((actions) => {
+    const loginLink  = actions.querySelector('[data-nav-role="login"]');
+    const registerLink = actions.querySelector('[data-nav-role="register"]');
 
-    const dashboardHref = user.role === 'provider' ? 'provider-dashboard.html' : 'user-dashboard.html';
-
-    // Change home links to dashboard
-    document.querySelectorAll('a[href="index.html"]').forEach((link) => {
-      if (link.closest('.nav-logo')) return; // don't change logo
-      link.href = dashboardHref;
-      link.textContent = 'Dashboard';
-    });
-
-    document.querySelectorAll('.nav-actions').forEach((actions) => {
-      const loginLink = actions.querySelector('a[href="login.html"]');
-      const registerLink = actions.querySelector('a[href="register.html"], a[href^="register.html?"]');
+    if (user) {
+      // ── LOGGED IN ──────────────────────────────────────
+      const dashboardHref = user.role === 'provider' ? 'provider-dashboard.html' : 'user-dashboard.html';
 
       if (loginLink) {
         loginLink.href = dashboardHref;
         loginLink.textContent = 'Dashboard';
-        loginLink.classList.remove('btn-outline');
-        loginLink.classList.add('btn-primary');
+        loginLink.classList.remove('btn-primary');
+        loginLink.classList.add('btn-outline');
       }
 
       if (registerLink) {
@@ -244,33 +263,40 @@ async function syncNavAuthState() {
         registerLink.classList.add('btn-outline');
         wireLogout(registerLink);
       }
-
-      actions.querySelectorAll('button[onclick*="AuthState.logout"]').forEach((btn) => {
-        btn.removeAttribute('onclick');
-        wireLogout(btn);
-      });
-    });
-
-    document.querySelectorAll('.nav-drawer .nav-actions, .mobile-drawer .nav-actions').forEach((actions) => {
-      const loginLink = actions.querySelector('a[href="login.html"]');
-      const registerLink = actions.querySelector('a[href="register.html"], a[href^="register.html?"]');
-
+    } else {
+      // ── LOGGED OUT – restore original links ────────────
       if (loginLink) {
-        loginLink.href = dashboardHref;
-        loginLink.textContent = 'Dashboard';
+        loginLink.href = 'login.html';
+        loginLink.textContent = 'Login';
+        loginLink.classList.remove('btn-primary');
+        loginLink.classList.add('btn-outline');
+        loginLink.dataset.logoutWired = '';
       }
 
       if (registerLink) {
-        registerLink.href = '#';
-        registerLink.textContent = 'Logout';
-        wireLogout(registerLink);
+        registerLink.href = 'register.html';
+        registerLink.textContent = 'Get Started';
+        registerLink.classList.remove('btn-outline');
+        registerLink.classList.add('btn-primary');
+        registerLink.dataset.logoutWired = '';
       }
-    });
-  };
+    }
+  });
+}
 
-  // Fast paint from local cache, then reconcile with backend in background.
+async function syncNavAuthState() {
+  tagNavLinks();
+
+  // Fast paint from local cache
   applyNavForUser(window.AuthState.getUser());
-  window.AuthState.refreshUser().then(applyNavForUser).catch(() => {});
+
+  // Reconcile with backend in background
+  try {
+    const user = await window.AuthState.refreshUser();
+    applyNavForUser(user);
+  } catch {
+    // keep whatever we painted from cache
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

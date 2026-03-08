@@ -4,8 +4,8 @@
 
 .chat-page {
   padding-top: 84px;
-  min-height: calc(100dvh - 84px);
-  height: calc(100dvh - 84px);
+  min-height: calc(100vh - 84px);
+  height: calc(100vh - 84px);
   display: flex;
   flex-direction: column;
   background: var(--bg-base);
@@ -580,8 +580,8 @@
 @media (max-width: 768px) {
   .chat-page {
     padding-top: 86px;
-    min-height: calc(100dvh - 86px);
-    height: calc(100dvh - 86px);
+    min-height: calc(100vh - 86px);
+    height: calc(100vh - 86px);
   }
   .chat-layout { grid-template-columns: 1fr; }
   .chat-window { display: none; }

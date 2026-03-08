@@ -1108,11 +1108,18 @@ footer .social-link:hover {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  background: white;          /* kills the body gradient bleed */
+}
+.chat-page-body::before,
+.chat-page-body::after {
+  display: none;              /* removes the animated glow planes */
+}
+.chat-page-body .bg-shapes {
+  display: none;              /* hides floating orb shapes */
 }
 .chat-page-body footer {
   display: none !important;
 }
-
 @media (max-width: 768px) {
   :root {
     --space-xl: 24px;

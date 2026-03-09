@@ -588,6 +588,9 @@
     box-sizing: border-box;
     padding: 0 14px var(--space-md);
   }
+  .provider-dashboard-container > section {
+    margin-right: 14px;
+  }
 }
 
 

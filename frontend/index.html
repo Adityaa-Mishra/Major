@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap">
   <title>MyHomeMistri – Find Trusted Home Service Providers</title>
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/index.css">
@@ -10,10 +13,18 @@
 </head>
 <body>
 
-<nav class="navbar">
+<!-- Background Shapes -->
+<div class="bg-shapes" aria-hidden="true">
+  <div class="bg-shape bg-shape-1"></div>
+  <div class="bg-shape bg-shape-2"></div>
+  <div class="bg-shape bg-shape-3"></div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="index.html" class="nav-logo">
-      <div class="logo-mark">🏠</div>
+      <div class="logo-icon">🏠</div>
       My<span class="accent">Home</span>Mistri
     </a>
     <ul class="nav-links">
@@ -23,8 +34,8 @@
       <li><a href="#testimonials" class="nav-link">Reviews</a></li>
     </ul>
     <div class="nav-actions">
-      <a href="login.html" class="btn btn-ghost btn-sm">Login</a>
-      <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+      <a href="login.html" class="btn btn-outline">Login</a>
+      <a href="register.html" class="btn btn-primary">Get Started</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu">
       <span></span><span></span><span></span>
@@ -32,6 +43,7 @@
   </div>
 </nav>
 
+<!-- Mobile Drawer -->
 <div class="nav-overlay" id="navOverlay"></div>
 <div class="nav-drawer" id="navDrawer">
   <a href="index.html" class="nav-link active">Home</a>
@@ -40,27 +52,30 @@
   <a href="#testimonials" class="nav-link">Reviews</a>
   <div class="nav-actions">
     <a href="login.html" class="btn btn-outline">Login</a>
-    <a href="register.html" class="btn btn-primary">Get Started</a>
+    <a href="register.html" class="btn btn-primary">Get Started Free</a>
   </div>
 </div>
 
-<!-- HERO -->
-<section class="hero page-wrap">
-  <div class="hero-inner">
-    <div>
-      <div class="hero-eyebrow">
-        <span class="eyebrow-dot"></span>
-        Trusted by 50,000+ homeowners across India
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-container">
+    <div class="hero-content">
+      <div class="hero-label">
+        <span class="dot"></span>
+        Trusted by 50,000+ homeowners
       </div>
       <h1 class="hero-title">
-        <span class="block">Your Home,</span>
-        <em>Expertly</em>
-        <span class="block">Cared For</span>
+        Find Trusted<br>
+        <span class="gradient-text">Home Experts</span><br>
+        Near You
       </h1>
       <p class="hero-subtitle">
-        Connect with verified electricians, plumbers, painters, carpenters and more. Book instantly, pay securely, get the job done right — every time.
+        Connect with verified electricians, plumbers, painters, carpenters and more. Book instantly, pay securely, get the job done right.
       </p>
 
+      <!-- Search Bar -->
       <div class="hero-search">
         <div class="search-field">
           <span>🔧</span>
@@ -69,275 +84,331 @@
         <div class="search-divider"></div>
         <div class="search-field">
           <span>📍</span>
-          <input type="text" placeholder="Your city">
+          <input type="text" placeholder="Your location">
         </div>
         <a href="providers.html" class="btn btn-primary">Search</a>
       </div>
 
-      <div class="hero-cta">
-        <a href="providers.html" class="btn btn-primary btn-xl">Browse Providers</a>
-        <a href="register.html?role=provider" class="btn btn-outline btn-xl">Join as Provider</a>
+      <div class="hero-cta-group">
+        <a href="providers.html" class="btn btn-primary btn-lg">
+          Browse Providers →
+        </a>
+        <a href="register.html?role=provider" class="btn btn-outline btn-lg">
+          Join as Provider
+        </a>
       </div>
 
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="hero-stat-num">50K+</div>
+          <div class="hero-stat-number">50K+</div>
           <div class="hero-stat-label">Happy Customers</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-num">2,400+</div>
+          <div class="hero-stat-number">8K+</div>
           <div class="hero-stat-label">Verified Providers</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-num">4.8★</div>
-          <div class="hero-stat-label">Avg. Rating</div>
+          <div class="hero-stat-number">4.9★</div>
+          <div class="hero-stat-label">Average Rating</div>
         </div>
       </div>
     </div>
 
     <div class="hero-visual">
-      <div class="hero-card-stack">
-        <div class="hcard hcard-verified">
-          <div class="hcard-verified-icon">✅</div>
-          <div>
-            <strong>Verified Pro</strong>
-            <p>Background checked</p>
+      <div class="hero-card-main">
+        <p style="font-size:0.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Top Providers Today</p>
+        <div class="hero-card-provider">
+          <div class="avatar">RK</div>
+          <div class="hero-provider-info">
+            <h4>Rajesh Kumar</h4>
+            <p>⚡ Electrician · Delhi</p>
           </div>
+          <div class="hero-provider-badge">Available</div>
         </div>
-        <div class="hcard hcard-main">
-          <div class="hcard-main-label">⭐ Top Rated Today</div>
-          <h3>Available Near You</h3>
-          <div class="provider-rows">
-            <div class="provider-row">
-              <div class="avatar avatar-sm">RK</div>
-              <div class="provider-row-info">
-                <div class="provider-row-name">Rajesh Kumar</div>
-                <div class="provider-row-type">Electrician · Delhi</div>
-              </div>
-              <div class="provider-row-badge">4.9★</div>
-            </div>
-            <div class="provider-row">
-              <div class="avatar avatar-sm" style="background:linear-gradient(135deg,#4E9A6C,#2E7D52)">AS</div>
-              <div class="provider-row-info">
-                <div class="provider-row-name">Amit Sharma</div>
-                <div class="provider-row-type">Plumber · Mumbai</div>
-              </div>
-              <div class="provider-row-badge">4.8★</div>
-            </div>
-            <div class="provider-row">
-              <div class="avatar avatar-sm" style="background:linear-gradient(135deg,#E07B2C,#C85A0A)">PV</div>
-              <div class="provider-row-info">
-                <div class="provider-row-name">Priya Verma</div>
-                <div class="provider-row-type">Painter · Bangalore</div>
-              </div>
-              <div class="provider-row-badge">4.7★</div>
-            </div>
+        <div class="hero-card-provider">
+          <div class="avatar" style="background:linear-gradient(135deg,#3B82F6,#60A5FA)">MV</div>
+          <div class="hero-provider-info">
+            <h4>Mohan Verma</h4>
+            <p>🔧 Plumber · Mumbai</p>
           </div>
+          <div class="hero-provider-badge">Available</div>
         </div>
-        <div class="hcard hcard-stat">
-          <div class="hcard-stat-icon">🛡️</div>
-          <div class="hcard-stat-val">100%</div>
-          <div class="hcard-stat-label">Work Guarantee</div>
+        <div class="hero-card-provider">
+          <div class="avatar" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">AS</div>
+          <div class="hero-provider-info">
+            <h4>Amit Sharma</h4>
+            <p>🎨 Painter · Bangalore</p>
+          </div>
+          <div class="hero-provider-badge">Available</div>
         </div>
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <div style="flex:1;height:6px;background:linear-gradient(90deg,var(--primary),var(--secondary-light));border-radius:3px"></div>
+          <div style="flex:1;height:6px;background:var(--bg-muted);border-radius:3px"></div>
+          <div style="flex:1;height:6px;background:var(--bg-muted);border-radius:3px"></div>
+        </div>
+      </div>
+      <div class="hero-floating-card card-rating">
+        <div>
+          <div class="floating-rating-number">4.9</div>
+          <div style="display:flex;gap:2px;margin:2px 0">★★★★★</div>
+          <div class="floating-rating-label">Avg. Rating</div>
+        </div>
+      </div>
+      <div class="hero-floating-card card-booking">
+        <div style="font-size:1.1rem;margin-bottom:4px">✅</div>
+        <div style="font-size:0.82rem;font-weight:700;color:var(--text-dark)">Booking Confirmed!</div>
+        <div style="font-size:0.72rem;color:var(--text-muted)">Plumber · 2 min ago</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="how-section section" id="how-it-works">
+<!-- Categories Strip -->
+<section class="categories-strip">
   <div class="container">
-    <div class="section-eyebrow">Simple Process</div>
-    <h2 class="section-title">How MyHomeMistri Works</h2>
-    <p class="section-subtitle">Book a trusted professional in 4 easy steps — no hassle, no surprises, no hidden charges.</p>
-    <div class="steps-row">
-      <div class="step">
-        <div class="step-num">01</div>
-        <div class="step-icon">🔍</div>
-        <div class="step-title">Search a Service</div>
-        <div class="step-desc">Browse by category or search for the exact service you need in your city.</div>
+    <div class="categories-scroll" id="categoriesScroll">
+      <div class="category-chip active" data-category="all">
+        <span class="chip-icon">🏠</span> All Services
       </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <div class="step-icon">👤</div>
-        <div class="step-title">Pick a Provider</div>
-        <div class="step-desc">Compare profiles, reviews, pricing and availability to find your best match.</div>
+      <div class="category-chip" data-category="electrician">
+        <span class="chip-icon">⚡</span> Electrician
       </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <div class="step-icon">📅</div>
-        <div class="step-title">Book & Confirm</div>
-        <div class="step-desc">Set your date, address and time. Your provider confirms within minutes.</div>
+      <div class="category-chip" data-category="plumber">
+        <span class="chip-icon">🔧</span> Plumber
       </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <div class="step-icon">⭐</div>
-        <div class="step-title">Rate & Review</div>
-        <div class="step-desc">After the job, leave a review to help others and reward great work.</div>
+      <div class="category-chip" data-category="painter">
+        <span class="chip-icon">🎨</span> Painter
+      </div>
+      <div class="category-chip" data-category="carpenter">
+        <span class="chip-icon">🪚</span> Carpenter
+      </div>
+      <div class="category-chip" data-category="cleaner">
+        <span class="chip-icon">🧹</span> Cleaner
+      </div>
+      <div class="category-chip" data-category="ac">
+        <span class="chip-icon">❄️</span> AC Service
+      </div>
+      <div class="category-chip" data-category="pest">
+        <span class="chip-icon">🐛</span> Pest Control
+      </div>
+      <div class="category-chip" data-category="mason">
+        <span class="chip-icon">🧱</span> Mason
       </div>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section class="services-section section">
+<!-- Features Section -->
+<section class="features section" id="features">
   <div class="container">
-    <div class="section-eyebrow">Our Services</div>
-    <h2 class="section-title">Everything Your Home Needs</h2>
-    <p class="section-subtitle">From urgent repairs to planned renovations — find the right professional for every job.</p>
-    <div class="services-grid">
-      <a href="providers.html?service=electrician" class="service-card">
-        <div class="service-icon">⚡</div>
-        <h4>Electrician</h4>
-        <p>Wiring, repairs & installations</p>
-      </a>
-      <a href="providers.html?service=plumber" class="service-card">
-        <div class="service-icon">🔧</div>
-        <h4>Plumber</h4>
-        <p>Pipes, fittings & leak repairs</p>
-      </a>
-      <a href="providers.html?service=painter" class="service-card">
-        <div class="service-icon">🎨</div>
-        <h4>Painter</h4>
-        <p>Interior & exterior painting</p>
-      </a>
-      <a href="providers.html?service=carpenter" class="service-card">
-        <div class="service-icon">🪚</div>
-        <h4>Carpenter</h4>
-        <p>Furniture, doors & woodwork</p>
-      </a>
-      <a href="providers.html?service=cleaner" class="service-card">
-        <div class="service-icon">🧹</div>
-        <h4>Home Cleaner</h4>
-        <p>Deep cleaning & housekeeping</p>
-      </a>
-      <a href="providers.html?service=ac" class="service-card">
-        <div class="service-icon">❄️</div>
-        <h4>AC Service</h4>
-        <p>Installation, repair & servicing</p>
-      </a>
-      <a href="providers.html?service=pest" class="service-card">
-        <div class="service-icon">🐛</div>
-        <h4>Pest Control</h4>
-        <p>Safe & effective treatment</p>
-      </a>
-      <a href="providers.html" class="service-card">
-        <div class="service-icon">➕</div>
-        <h4>More Services</h4>
-        <p>Explore all categories</p>
-      </a>
+    <div class="features-header">
+      <div class="section-label reveal">✨ Why Choose Us</div>
+      <h2 class="section-title reveal reveal-delay-1">Everything You Need for<br>Home Services</h2>
+      <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto">We make it simple to find, book, and manage trusted home service professionals in your area.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card card-tilt reveal reveal-delay-1">
+        <div class="feature-icon orange">✅</div>
+        <h3 class="feature-title">Verified Professionals</h3>
+        <p class="feature-desc">Every provider goes through a strict background verification and skill assessment process before joining our platform.</p>
+      </div>
+      <div class="feature-card card-tilt reveal reveal-delay-2">
+        <div class="feature-icon blue">⚡</div>
+        <h3 class="feature-title">Instant Booking</h3>
+        <p class="feature-desc">Book a service in under 2 minutes. Real-time availability, instant confirmation, no back and forth calls needed.</p>
+      </div>
+      <div class="feature-card card-tilt reveal reveal-delay-3">
+        <div class="feature-icon green">💬</div>
+        <h3 class="feature-title">Live Chat Support</h3>
+        <p class="feature-desc">Chat directly with your service provider before the job. Discuss requirements, get quotes, and stay updated.</p>
+      </div>
+      <div class="feature-card card-tilt reveal reveal-delay-1">
+        <div class="feature-icon amber">🛡️</div>
+        <h3 class="feature-title">100% Insured</h3>
+        <p class="feature-desc">All work is backed by our satisfaction guarantee. If you're not happy, we make it right—no questions asked.</p>
+      </div>
+      <div class="feature-card card-tilt reveal reveal-delay-2">
+        <div class="feature-icon rose">⭐</div>
+        <h3 class="feature-title">Honest Reviews</h3>
+        <p class="feature-desc">Real reviews from verified customers. Make confident decisions based on authentic ratings and detailed feedback.</p>
+      </div>
+      <div class="feature-card card-tilt reveal reveal-delay-3">
+        <div class="feature-icon cyan">📊</div>
+        <h3 class="feature-title">Easy Dashboard</h3>
+        <p class="feature-desc">Track all your bookings, payments, and messages from one clean dashboard. Stay organized effortlessly.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="testimonials-section section" id="testimonials">
+<!-- How It Works -->
+<section class="how-it-works section" id="how-it-works">
   <div class="container">
-    <div class="section-eyebrow">Customer Reviews</div>
-    <h2 class="section-title">Trusted by Thousands</h2>
-    <p class="section-subtitle">Real stories from homeowners who found their perfect service professional on MyHomeMistri.</p>
-    <div class="testimonials-grid">
-      <div class="tcard">
-        <div class="tcard-stars">★★★★★</div>
-        <div class="tcard-quote">"</div>
-        <p class="tcard-text">Found an excellent electrician within 30 minutes. He arrived on time, did clean work and charged exactly what was quoted. Will always use MyHomeMistri.</p>
-        <div class="tcard-author">
-          <div class="avatar avatar-sm">PR</div>
-          <div>
-            <div class="tcard-name">Priya Rawat</div>
-            <div class="tcard-role">Homeowner · Delhi</div>
-          </div>
-        </div>
+    <div style="text-align:center;margin-bottom:var(--space-xl)">
+      <div class="section-label reveal" style="margin:0 auto var(--space-md)">🗺️ How It Works</div>
+      <h2 class="section-title reveal reveal-delay-1">Simple, Fast & Reliable</h2>
+      <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto">Get your home service done in 4 easy steps</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal reveal-delay-1">
+        <div class="step-number">1</div>
+        <h3 class="step-title">Search Service</h3>
+        <p class="step-desc">Browse by category or search for the specific service you need in your city.</p>
       </div>
-      <div class="tcard">
-        <div class="tcard-stars">★★★★★</div>
-        <div class="tcard-quote">"</div>
-        <p class="tcard-text">The plumber fixed our bathroom leak in under an hour. The chat feature made coordination effortless. Professional, honest, stress-free experience.</p>
-        <div class="tcard-author">
-          <div class="avatar avatar-sm" style="background:linear-gradient(135deg,#4E9A6C,#2E7D52)">SM</div>
-          <div>
-            <div class="tcard-name">Suresh Mehta</div>
-            <div class="tcard-role">Apartment Owner · Mumbai</div>
-          </div>
-        </div>
+      <div class="step-card reveal reveal-delay-2">
+        <div class="step-number">2</div>
+        <h3 class="step-title">Choose Provider</h3>
+        <p class="step-desc">Compare profiles, read reviews, check portfolios and pick the best provider for you.</p>
       </div>
-      <div class="tcard">
-        <div class="tcard-stars">★★★★☆</div>
-        <div class="tcard-quote">"</div>
-        <p class="tcard-text">As a provider, this platform transformed my business. Consistent bookings, reliable payments, and customers who actually appreciate quality work.</p>
-        <div class="tcard-author">
-          <div class="avatar avatar-sm" style="background:linear-gradient(135deg,#E07B2C,#C85A0A)">RK</div>
-          <div>
-            <div class="tcard-name">Ravi Kumar</div>
-            <div class="tcard-role">Electrician · Bangalore</div>
-          </div>
-        </div>
+      <div class="step-card reveal reveal-delay-3">
+        <div class="step-number">3</div>
+        <h3 class="step-title">Book & Chat</h3>
+        <p class="step-desc">Book instantly and chat with your provider to discuss details before the appointment.</p>
+      </div>
+      <div class="step-card reveal reveal-delay-4">
+        <div class="step-number">4</div>
+        <h3 class="step-title">Rate & Review</h3>
+        <p class="step-desc">After the job, leave honest feedback to help others make the right choice.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA BAND -->
-<section class="cta-band">
+<!-- Testimonials -->
+<section class="testimonials section" id="testimonials">
+  <div class="container" style="padding-bottom:0">
+    <div class="testimonials-header">
+      <div class="section-label reveal" style="margin:0 auto var(--space-md)">💬 Testimonials</div>
+      <h2 class="section-title reveal reveal-delay-1">What Our Customers Say</h2>
+    </div>
+  </div>
+  <div class="testimonials-track-wrapper">
+    <div class="testimonials-track" id="testimonialsTrack">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
   <div class="container">
-    <div class="cta-band-inner">
-      <div>
-        <h2>Ready to Get Started?<br>Book a Service Today.</h2>
-        <p>Join 50,000+ homeowners who trust MyHomeMistri for every home need.</p>
-      </div>
-      <div class="cta-band-btns">
-        <a href="providers.html" class="btn btn-dark btn-lg">Browse Providers</a>
-        <a href="register.html?role=provider" class="btn btn-dark-outline btn-lg">Become a Provider</a>
+    <div class="cta-content">
+      <div class="section-label reveal" style="margin:0 auto var(--space-md)">🚀 Get Started</div>
+      <h2 class="cta-title reveal reveal-delay-1">Ready to Get Your<br>Home Fixed?</h2>
+      <p class="cta-subtitle reveal reveal-delay-2">
+        Join thousands of happy homeowners who trust MyHomeMistri for all their home service needs.
+      </p>
+      <div class="cta-buttons reveal reveal-delay-3">
+        <a href="providers.html" class="btn btn-white btn-lg">Find a Provider</a>
+        <a href="register.html?role=provider" class="btn btn-outline-white btn-lg">Become a Provider</a>
       </div>
     </div>
   </div>
 </section>
 
+<!-- Footer -->
 <footer>
   <div class="container">
     <div class="footer-grid">
       <div>
         <div class="footer-logo">
-          <div class="logo-mark">🏠</div>
-          My<span class="accent">Home</span>Mistri
+          <div class="logo-icon" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;border-radius:8px">🏠</div>
+          My<span style="color:var(--primary-light)">Home</span>Mistri
         </div>
-        <p>India's trusted platform for finding verified home service professionals in your city. Quality work, every time.</p>
+        <p>India's most trusted platform for home services. Connecting homeowners with skilled professionals since 2020.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">📘</a>
+          <a href="#" class="social-link">🐦</a>
+          <a href="#" class="social-link">📸</a>
+          <a href="#" class="social-link">💼</a>
+        </div>
       </div>
-      <div>
-        <h4>Services</h4>
-        <a href="providers.html?service=electrician">Electrician</a>
-        <a href="providers.html?service=plumber">Plumber</a>
-        <a href="providers.html?service=painter">Painter</a>
-        <a href="providers.html?service=carpenter">Carpenter</a>
-        <a href="providers.html?service=cleaner">Home Cleaning</a>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <a href="#">About Us</a>
-        <a href="#">How It Works</a>
-        <a href="#">Become a Provider</a>
-        <a href="#">Blog</a>
+      <div class="footer-links-row">
+        <div>
+          <h4>Services</h4>
+          <a href="providers.html?category=electrician">Electrician</a>
+          <a href="providers.html?category=plumber">Plumber</a>
+          <a href="providers.html?category=painter">Painter</a>
+          <a href="providers.html?category=carpenter">Carpenter</a>
+          <a href="providers.html?category=cleaner">Cleaner</a>
+          <a href="providers.html?category=ac">AC Service</a>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <a href="#">About Us</a>
+          <a href="#">Careers</a>
+          <a href="#">Blog</a>
+          <a href="#">Press</a>
+          <a href="#">Contact</a>
+        </div>
       </div>
       <div>
         <h4>Support</h4>
         <a href="#">Help Center</a>
-        <a href="#">Contact Us</a>
+        <a href="#">Safety</a>
         <a href="#">Privacy Policy</a>
         <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2025 MyHomeMistri. All rights reserved.</span>
-      <div class="social-links">
-        <a href="#" class="social-link">𝕏</a>
-        <a href="#" class="social-link">in</a>
-        <a href="#" class="social-link">f</a>
-      </div>
+      <span>Made with ❤️ in India</span>
     </div>
   </div>
 </footer>
 
-<div class="toast-container"></div>
-<script src="js/global.js"></script>
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/global.js" defer></script>
+<script src="js/providers.js" defer></script>
+<script>
+  // Populate testimonials
+  const testimonials = [
+    { name: "Priya Sharma", role: "Homeowner · Delhi", text: "Found an excellent electrician within minutes. The entire process was so smooth and the provider was punctual and professional.", rating: 5, initial: "PS" },
+    { name: "Rahul Gupta", role: "Homeowner · Mumbai", text: "MyHomeMistri saved my weekend! Got a plumber in 30 minutes for an emergency pipe burst. Highly recommend!", rating: 5, initial: "RG" },
+    { name: "Ananya Reddy", role: "Homeowner · Hyderabad", text: "The painter did an amazing job transforming my living room. I loved being able to see his portfolio before booking.", rating: 5, initial: "AR" },
+    { name: "Vikram Nair", role: "Homeowner · Bangalore", text: "Super easy to use. I booked an AC service and the technician was knowledgeable and fixed it in one visit.", rating: 5, initial: "VN" },
+    { name: "Sunita Patel", role: "Homeowner · Pune", text: "Finally a platform that has quality providers. The chat feature is great for discussing requirements beforehand.", rating: 4, initial: "SP" },
+    { name: "Amit Joshi", role: "Homeowner · Chennai", text: "Excellent service! The carpenter made custom furniture exactly as I described. Great communication throughout.", rating: 5, initial: "AJ" },
+  ];
+
+  const track = document.getElementById('testimonialsTrack');
+  const allTestimonials = [...testimonials, ...testimonials];
+  allTestimonials.forEach(t => {
+    const stars = '★'.repeat(t.rating) + '☆'.repeat(5 - t.rating);
+    track.innerHTML += `
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">${t.text}</p>
+        <div class="testimonial-author">
+          <div class="avatar avatar-sm" style="background:linear-gradient(135deg,var(--primary),var(--secondary-light))">${t.initial}</div>
+          <div class="testimonial-author-info">
+            <h4>${t.name}</h4>
+            <p>${t.role}</p>
+          </div>
+          <div style="margin-left:auto;color:var(--warning);font-size:0.8rem">${stars}</div>
+        </div>
+      </div>
+    `;
+  });
+
+  // Category chips
+  document.querySelectorAll('.category-chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+      const cat = this.dataset.category;
+      window.location.href = cat === 'all' ? 'providers.html' : `providers.html?category=${cat}`;
+    });
+  });
+
+  // Hero search
+  document.querySelector('.hero-search .btn').addEventListener('click', function(e) {
+    const val = document.getElementById('heroServiceInput').value.trim();
+    if (val) window.location.href = `providers.html?search=${encodeURIComponent(val)}`;
+  });
+</script>
 </body>
 </html>

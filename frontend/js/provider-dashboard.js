@@ -468,6 +468,20 @@ async function loadProviderReviews() {
 })();
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Injected style to fix content overflow on mobile devices.
+  // This adds horizontal padding to the main content area on screens smaller than 768px.
+  const style = document.createElement('style');
+  style.textContent = `
+    @media (max-width: 768px) {
+      .dashboard-container, .dashboard-content, .main-content, .page-content, main {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        box-sizing: border-box;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
   const user = await window.AuthState.refreshUser({ strict: true });
   if (!user) {
     window.location.href = 'login.html';

@@ -132,7 +132,7 @@ async function loadProvider() {
   rate = Number(provider.pricePerHour || 600);
 
   setText('.profile-name', userName);
-  setText('.breadcrumb-item.active', userName);
+  setText('.breadcrumb .current', userName);
   setText('.profile-specialty-tag', `Service: ${serviceType}`);
   setText('.profile-meta-item:nth-child(1)', `Location: ${location}`);
   setText('#statRating', rating);

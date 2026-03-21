@@ -5,7 +5,7 @@ const FRONTEND_HOST = window.location.hostname;
 const API_BASE =
   FRONTEND_HOST === 'localhost' || FRONTEND_HOST === '127.0.0.1'
     ? 'http://localhost:5000/api'
-    : 'https://major-xhfo.onrender.com/api';
+    : 'https://major-dt81.onrender.com';
 
 window.API_BASE = API_BASE;
 

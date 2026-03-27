@@ -58,20 +58,13 @@ app.use(
     proxy: IS_PRODUCTION,
     cookie: {
       httpOnly: true,
-      // When frontend and backend are hosted on different origins (which is
-      // the case in production), browsers will not send cookies for cross-site
-      // POST/ajax requests if `sameSite` is set to 'lax' (only top-level GET
-      // navigations are allowed). This was causing users to successfully log
-      // in but then immediately get kicked back to the login page because the
-      // session cookie was never included on subsequent API calls. Switching to
-      // 'none' (with secure=true) allows the cookie to be used across origins.
       sameSite: IS_PRODUCTION ? 'none' : 'lax',
       secure: IS_PRODUCTION,
       maxAge: 1000 * 60 * 60 * 24
     }
   })
 );
-
+g
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     success: true,
